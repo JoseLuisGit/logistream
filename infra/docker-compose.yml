@@ -1,0 +1,66 @@
+version: '3'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.2.1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.2.1
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  auth:
+    build: 
+      context: ../
+      dockerfile: services/auth/Dockerfile
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/auth
+      - JWT_KEY=asdf
+    depends_on:
+      - mongo
+      - kafka
+    ports:
+      - 3000:3000
+
+  orders:
+    build: 
+      context: ../
+      dockerfile: services/orders/Dockerfile
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/orders
+      - JWT_KEY=asdf
+    depends_on:
+      - mongo
+      - kafka
+    ports:
+      - 3001:3001
+
+  payments:
+    build: 
+      context: ../
+      dockerfile: services/payments/Dockerfile
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/payments
+      - JWT_KEY=asdf
+      - STRIPE_KEY=${STRIPE_KEY}
+    depends_on:
+      - mongo
+      - kafka
+    ports:
+      - 3002:3002

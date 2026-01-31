@@ -1,0 +1,27 @@
+{
+    "name": "@logistream/shared",
+    "version": "1.0.0",
+    "description": "Shared code for LogiStream microservices",
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
+    "files": [
+        "build/**/*"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc --watch",
+        "clean": "del-cli build"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "del-cli": "^5.1.0",
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "express-validator": "^7.3.1",
+        "kafkajs": "^2.2.4",
+        "winston": "^3.19.0"
+    }
+}
