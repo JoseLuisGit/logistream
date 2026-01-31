@@ -10,17 +10,11 @@ class KafkaWrapper {
         return this._client;
     }
 
-    connect(clientId: string, brokers: string[]) {
+    connect(clientId: string, brokers: string[]): Promise<void> {
         this._client = new Kafka({
             clientId,
             brokers,
         });
-
-        // We can also connect a producer here if we want a shared one, 
-        // but BasePublisher creates its own producer usually. 
-        // For optimization, we might want to share the producer connection, 
-        // but sticking to the BasePublisher pattern for now.
-
         return Promise.resolve();
     }
 }

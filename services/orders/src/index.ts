@@ -1,25 +1,17 @@
-import mongoose from 'mongoose';
 import { app } from './app';
-import { logger } from '@logistream/shared';
+import { bootstrapServer, kafkaWrapper } from '@logistream/shared';
 
-const start = async () => {
-    if (!process.env.JWT_KEY) {
-        throw new Error('JWT_KEY must be defined');
-    }
-    if (!process.env.MONGO_URI) {
-        throw new Error('MONGO_URI must be defined');
-    }
-
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        logger.info('Connected to MongoDb');
-    } catch (err) {
-        logger.error(err);
-    }
-
-    app.listen(3001, () => {
-        logger.info('Listening on port 3001');
-    });
-};
-
-start();
+bootstrapServer({
+    app,
+    port: Number(process.env.PORT) || 3001,
+    requiredEnvVars: ['JWT_KEY', 'MONGO_URI'],
+    onBeforeListen: async () => {
+        // Initialize Kafka if needed
+        if (process.env.KAFKA_BROKERS) {
+            await kafkaWrapper.connect(
+                'orders-service',
+                process.env.KAFKA_BROKERS.split(',')
+            );
+        }
+    },
+});

@@ -1,2 +1,6 @@
 /node_modules
 /shared/build
+/services/auth/dist
+/services/orders/dist
+/services/payments/dist
+.env

@@ -16,3 +16,6 @@ export * from './events/order-created-event';
 export * from './events/order-cancelled-event';
 export * from './events/payment-created-event';
 export * from './logger';
+export * from './kafka-wrapper';
+export * from './app-factory';
+export * from './server-bootstrap';

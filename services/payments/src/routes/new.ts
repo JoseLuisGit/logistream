@@ -12,7 +12,7 @@ import { stripe } from '../stripe';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
-import { kafkaWrapper } from '../kafka-wrapper';
+import { kafkaWrapper } from '@logistream/shared';
 
 const router = express.Router();
 

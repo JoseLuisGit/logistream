@@ -45,6 +45,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/orders
       - JWT_KEY=asdf
+      - KAFKA_BROKERS=kafka:9092
     depends_on:
       - mongo
       - kafka
@@ -59,6 +60,7 @@ services:
       - MONGO_URI=mongodb://mongo:27017/payments
       - JWT_KEY=asdf
       - STRIPE_KEY=${STRIPE_KEY}
+      - KAFKA_BROKERS=kafka:9092
     depends_on:
       - mongo
       - kafka

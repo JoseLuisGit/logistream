@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import { Ticket } from '../models/ticket';
 import { Order } from '../models/order';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
-import { kafkaWrapper } from '../kafka-wrapper';
+import { kafkaWrapper } from '@logistream/shared';
 
 const router = express.Router();
 

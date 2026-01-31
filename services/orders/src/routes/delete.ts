@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { requireAuth, NotFoundError, NotAuthorizedError, OrderStatus } from '@logistream/shared';
 import { Order } from '../models/order';
 import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
-import { kafkaWrapper } from '../kafka-wrapper';
+import { kafkaWrapper } from '@logistream/shared';
 
 const router = express.Router();
 
